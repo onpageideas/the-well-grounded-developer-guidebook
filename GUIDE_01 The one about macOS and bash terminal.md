@@ -73,7 +73,6 @@ alias _react_native_cleanall='watchman watch-del-all; rm -rf node_modules && yar
 
 # misc settings
 export PAGER=less
-export LC_ALL=en_US.utf8
 export LANG=en_US.utf8
 export HISTCONTROL=ignoreboth:erasedups
 export EDITOR=mcedit
@@ -117,7 +116,6 @@ Should contain setup for PATH, and other environment variables that are used by 
 
 Recommended `.bashrc` file contents, for a properly setup (includes ruby / rvm, node / nvm, yarn, etc):
 ```
-set -E -u -o pipefail
 
 # show errors on failed scripts (when return code is non-zero)
 trap 'printf -- "\n\033[31;01m[ee] command failed (with exit code %s):\n%s\033[00m\n" "${?}" "${BASH_COMMAND}" >&2' ERR
