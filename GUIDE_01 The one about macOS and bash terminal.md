@@ -117,10 +117,6 @@ Should contain setup for PATH, and other environment variables that are used by 
 Recommended `.bashrc` file contents, for a properly setup (includes ruby / rvm, node / nvm, yarn, etc):
 ```
 
-# show errors on failed scripts (when return code is non-zero)
-trap 'printf -- "\n\033[31;01m[ee] command failed (with exit code %s):\n%s\033[00m\n" "${?}" "${BASH_COMMAND}" >&2' ERR
-
-
 # homebrew 
 export PATH="$PATH:/usr/local/bin:/usr/local/sbin"
 
