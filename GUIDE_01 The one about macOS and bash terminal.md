@@ -73,7 +73,7 @@ alias _react_native_cleanall='watchman watch-del-all; rm -rf node_modules && yar
 
 # misc settings
 export PAGER=less
-export LANG=en_US.utf8
+export LANG="en_US.UTF-8"
 export HISTCONTROL=ignoreboth:erasedups
 export EDITOR=mcedit
 shopt -s globstar autocd
