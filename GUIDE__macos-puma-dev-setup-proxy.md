@@ -13,6 +13,12 @@ sudo puma-dev -setup
 puma-dev -install
 ```
 
+For macOS >= HighSierra you may need to [manually "trust" the SSL certificate](https://github.com/puma/puma-dev/issues/84#issuecomment-269588573)
+```
+security add-trusted-cert -k login.keychain-db ~/Library/Application\ Support/io.puma.dev/cert.pem
+```
+
+
 ### Use [as https proxy](https://github.com/puma/puma-dev#proxy-support) 
 
 To access via https for a server running on `localhost:3000` (like rails default):
