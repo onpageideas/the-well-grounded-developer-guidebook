@@ -1,5 +1,5 @@
 
-# Guide (macOS): setup [puma-dev](https://github.com/puma/puma-dev) and use [as proxy](https://github.com/puma/puma-dev#proxy-support)
+# Guide (macOS): setup [puma-dev](https://github.com/puma/puma-dev) and use [as https proxy](https://github.com/puma/puma-dev#proxy-support)
 
 Install puma-dev as [described in the official documentation](https://github.com/puma/puma-dev#installation)
 
@@ -13,12 +13,14 @@ sudo puma-dev -setup
 puma-dev -install
 ```
 
-Use [as proxy](https://github.com/puma/puma-dev#proxy-support) 
+### Use [as https proxy](https://github.com/puma/puma-dev#proxy-support) 
 
-Proxy for `localhost:3000`:
+To access via https for a server running on `localhost:3000` (like rails default):
 
 ```
 echo '3000' > ~/.puma-dev/proxy3000
+
+# "proxy3000" can be replaced with whatever anything else
 ```
 
 Open browser via https to:  https://proxy3000.test
