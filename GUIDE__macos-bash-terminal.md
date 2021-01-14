@@ -4,17 +4,18 @@
 
 ## Assumptions in regard to existing macOS setup
 
-1. running macOS >= 10.13 (High Sierra or later)
+1. running macOS >= 10.13 (High Sierra or later); see note below about zsh.
 2. [homebrew](http://brew.sh) properly installed (see chapter below about "Correct Homebrew install/setup")
 3. you are using `bash` as your terminal shell, *not* zsh or anything else
 4. (recommended): you are using [iTerm2](https://www.iterm2.com/)  (current version 3.3 on Aug 2019)
 5. (recommended): you have `bash-completion` installed via brew
 
+NOTE: [macOS 10.15 (Catalina) switched to zsh as default](https://support.apple.com/en-us/HT208050).
 
 
-# Setup your user login shell
+# Setup your user login shell to use bash
 
-Install `bash` version >= 5 via homebrew. The macOS default (that comes with Mojave) is still bash v3.2 (crazy! > 10 years old!). It has some limitations and features that don't work.
+Install `bash` version >= 5 via homebrew. macOS Mojave comes with bash v3.2 (crazy! > 10 years old!). It has some limitations and features that don't work. And starting with macOS Catalina it switched to zsh, which is not 100% compatible with a bunch of scripts around... (plus, for me personally — @rcugut — is as a matter of preference for bash :-)
 
 ```
 brew install bash
