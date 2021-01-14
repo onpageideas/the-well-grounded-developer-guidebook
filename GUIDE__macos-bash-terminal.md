@@ -1,13 +1,13 @@
 # Recommended setup for macOS with bash terminal (.bashrc, .bash_profile, etc)
 
-> Last update: Aug 2019
+> Last update: Jan 14, 2021
 
 ## Assumptions in regard to existing macOS setup
 
 1. running macOS >= 10.13 (High Sierra or later); see note below about zsh.
 2. [homebrew](http://brew.sh) properly installed (see chapter below about "Correct Homebrew install/setup")
 3. you are using `bash` as your terminal shell, *not* zsh or anything else
-4. (recommended): you are using [iTerm2](https://www.iterm2.com/)  (current version 3.3 on Aug 2019)
+4. (recommended): you are using [iTerm2](https://www.iterm2.com/)  (current version 3.4 on Jan 14, 2021)
 5. (recommended): you have `bash-completion` installed via brew
 
 NOTE: [macOS 10.15 (Catalina) switched to zsh as default](https://support.apple.com/en-us/HT208050).
@@ -19,7 +19,7 @@ Install `bash` version >= 5 via homebrew. macOS Mojave comes with bash v3.2 (cra
 
 ```
 brew install bash
-# version 5.0.7, on Aug 5 2019
+# version 5.1.4, on Jan 14 2019
 ```
 
 Now setup your macOS user to use this new bash version as a login shell:
