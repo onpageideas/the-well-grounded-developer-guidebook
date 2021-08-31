@@ -1,25 +1,26 @@
 # Recommended setup for macOS with bash terminal (.bashrc, .bash_profile, etc)
 
-> Last update: Jan 14, 2021
+> Last update: Aug 30, 2021
 
 ## Assumptions in regard to existing macOS setup
 
-1. running macOS >= 10.13 (High Sierra or later); see note below about zsh.
+1. running macOS >= 10.14 (Catalina or later); see note below about zsh.
 2. [homebrew](http://brew.sh) properly installed (see chapter below about "Correct Homebrew install/setup")
 3. you are using `bash` as your terminal shell, *not* zsh or anything else
-4. (recommended): you are using [iTerm2](https://www.iterm2.com/)  (current version 3.4 on Jan 14, 2021)
+4. (recommended): you are using [iTerm2](https://www.iterm2.com/)  (current version 3.4 on Aug 30, 2021)
 5. (recommended): you have `bash-completion` installed via brew
 
-NOTE: [macOS 10.15 (Catalina) switched to zsh as default](https://support.apple.com/en-us/HT208050).
+### NOTE about zsh
+[macOS 10.15 (Catalina) switched to zsh as default](https://support.apple.com/en-us/HT208050). Don't let yourself be tricked! bash is absolutely very ok, with a very strong development community, stability and speed.  zsh it's just ... "different", but not better! And Apple just likes to play the game of being "different"... bleah
 
 
-# Setup your user login shell to use bash
+# Setup your user login shell to use the brew installed "bash"
 
-Install `bash` version >= 5 via homebrew. macOS Mojave comes with bash v3.2 (crazy! > 10 years old!). It has some limitations and features that don't work. And starting with macOS Catalina it switched to zsh, which is not 100% compatible with a bunch of scripts around... (plus, for me personally — @rcugut — is as a matter of preference for bash :-)
+Install `bash` via homebrew (version >= 5). That's because, macOS Mojave comes with bash v3.2 (just crazy, 10 years old!). And starting with macOS Catalina it switched to zsh (see the note/rant above about zsh).
 
 ```
 brew install bash
-# version 5.1.4, on Jan 14 2019
+# version 5.1.8, on Aug 30 2021
 ```
 
 Now setup your macOS user to use this new bash version as a login shell:
@@ -50,7 +51,13 @@ Based on years of experience, trial-and-error, trust me on this one:  **you only
  -  `.bashrc` : this is run every time for a non-interactive bash shell (like a script)
 
 So, check your home folder, and remove all other bash or profile related files that are not the 2 mentioned above.
-Here's a list of other possible files you may have, and **you should remove**, as they may screw up your setup: `.profile`, `.bash_login`, `.login`, `.session`, `.zshrc`
+Here's a list of other possible files you may have, and **you should remove these files**, as they may screw up your setup: 
+- `.profile`
+- `.bash_login`
+- `.login`
+- `.session`
+- `.zshrc` (and anything zsh related)
+
 
 Now, let's setup `.bash_profile` and `.bashrc` properly:
 
@@ -71,13 +78,17 @@ Good starting point example file for `.bash_profile`. You can copy paste this, i
 alias _react_native_cleanall='watchman watch-del-all; rm -rf node_modules && yarn install; rm -fr ${TMPDIR:?}/react-*'
 
 
+# faster mcedit, disable subshell
+alias mcedit='mcedit -u'
 
-# misc settings
-export PAGER=less
-export LANG="en_US.UTF-8"
+
+export SUDO_PS1="\[\h:\w\] \u\\$ "
+export JAVA_HOME=$(/usr/libexec/java_home -v 11)
+export EDITOR="mcedit"
 export HISTCONTROL=ignoreboth:erasedups
-export EDITOR=mcedit
-shopt -s globstar autocd
+export LANG="en_US.UTF-8"
+export SSL_CERT_FILE=~/.cacert.pem
+
 
 export ANDROID_HOME=/Developer/android-sdk
 
@@ -88,14 +99,15 @@ export ANDROID_HOME=/Developer/android-sdk
 
 
 # bash prompts
-export SUDO_PS1="\[\h:\w\] \u\\$ "
+GIT_PS1_SHOWDIRTYSTATE=true
+PS1='\u:\w$(__git_ps1 "(%s)")\$ '
+PS1='\[\033[32m\]\u:\[\033[34m\]\w\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
 
 # use bash git prompt (https://formulae.brew.sh/formula/bash-git-prompt)
 if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
   __GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share
   source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
 fi
-
 
 
 # bash completion
@@ -118,9 +130,11 @@ Should contain setup for PATH, and other environment variables that are used by 
 Recommended `.bashrc` file contents, for a properly setup (includes ruby / rvm, node / nvm, yarn, etc):
 ```
 
-# homebrew 
-export PATH="$PATH:/usr/local/bin:/usr/local/sbin"
+# homebrew paths
+export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
 
+# add Python3 bin to PATH
+export PATH="$PATH:$HOME/Library/Python/3.7/bin"
 
 # setup RVM (ruby version manager)
 source "$HOME/.rvm/scripts/rvm"
