@@ -25,6 +25,11 @@ brew install bash
 
 Now setup your macOS user to use this new bash version as a login shell:
 
+Paths:
+
+- `/opt/homebrew/bin/bash` for [Apple silicon](https://docs.brew.sh/FAQ#why-is-the-default-installation-prefix-opthomebrew-on-apple-silicon)
+- `/usr/local/bin/bash` for Intel
+
 ```
 # edit the /etc/shells and add the newly isntalled bash as a valid shell option
 
@@ -32,7 +37,7 @@ sudo echo '/usr/local/bin/bash' >> /etc/shells
 
 # this will add a line at the end of the file: /usr/local/bin/bash
 ```
-As a result, your file `/etc/shells` should have this line added to it: `/usr/local/bin/bash` 
+As a result, your file `/etc/shells` should have this line added to it: `/usr/local/bin/bash`
 
 Next, open "System Preferences > Users & Groups", then on the bottom-left click to lock to unlock it (enter macos password).
 Then right-click on your user in the list and "Advanced Options".
@@ -43,15 +48,26 @@ After reboot, your user will be using bash v5 as login shell.
 
 
 
+**Troubleshooting**
+
+`-bash: brew: command not found`
+
+You may need to load brew in bash_profile:
+
+```
+echo "export PATH=/opt/homebrew/bin:$PATH" >> ~/.bash_profile && source ~/.bash_profile
+```
+
+
 ## About .bash_profile, .bashrc and other dot files
 
 Based on years of experience, trial-and-error, trust me on this one:  **you only need 2 files that are bash related in your home folder**:
 
- -  `.bash_profile` : this is loaded once, for every login shell (like when you open up a tab in iTerm2)
- -  `.bashrc` : this is run every time for a non-interactive bash shell (like a script)
+-  `.bash_profile` : this is loaded once, for every login shell (like when you open up a tab in iTerm2)
+-  `.bashrc` : this is run every time for a non-interactive bash shell (like a script)
 
 So, check your home folder, and remove all other bash or profile related files that are not the 2 mentioned above.
-Here's a list of other possible files you may have, and **you should remove these files**, as they may screw up your setup: 
+Here's a list of other possible files you may have, and **you should remove these files**, as they may screw up your setup:
 - `.profile`
 - `.bash_login`
 - `.login`
