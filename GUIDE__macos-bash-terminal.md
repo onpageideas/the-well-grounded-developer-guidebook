@@ -52,10 +52,9 @@ After reboot, your user will be using bash v5 as login shell.
 
 `-bash: brew: command not found`
 
-You may need to load brew in bash_profile:
-
+You may need to load brew in bash_profile
 ```
-echo "export PATH=/opt/homebrew/bin:$PATH" >> ~/.bash_profile && source ~/.bash_profile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.bash_profile && source ~/.bash_profile
 ```
 
 
