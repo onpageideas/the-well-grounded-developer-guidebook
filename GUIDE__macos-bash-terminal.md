@@ -46,24 +46,12 @@ Press OK, then **restart your macbook**.
 
 After reboot, your user will be using bash v5 as login shell.
 
-
-
-**Troubleshooting**
-
-`-bash: brew: command not found`
-
-You may need to load brew in bash_profile
-```
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.bash_profile && source ~/.bash_profile
-```
-
-
 ## About .bash_profile, .bashrc and other dot files
 
 Based on years of experience, trial-and-error, trust me on this one:  **you only need 2 files that are bash related in your home folder**:
 
--  `.bash_profile` : this is loaded once, for every login shell (like when you open up a tab in iTerm2)
--  `.bashrc` : this is run every time for a non-interactive bash shell (like a script)
+- `.bash_profile` : this is loaded once, for every login shell (like when you open up a tab in iTerm2)
+- `.bashrc` : this is run every time for a non-interactive bash shell (like a script)
 
 So, check your home folder, and remove all other bash or profile related files that are not the 2 mentioned above.
 Here's a list of other possible files you may have, and **you should remove these files**, as they may screw up your setup:
