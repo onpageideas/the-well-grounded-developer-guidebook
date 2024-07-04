@@ -194,7 +194,7 @@ sudo chown -R <jsmith> .  # !!! replace `<jsmith>` with your username
 # this will ask for root (macos) password, and then... it will take a while, be patient
 ```
 
-### Broken Homebrew install, folder /usr/local/ permissions
+### Broken Homebrew install, folder /opt/homebrew/ permissions
 
 IMO, as you are the only user of your laptop, you should own the homebrew folder(s):
 
@@ -203,8 +203,8 @@ IMO, as you are the only user of your laptop, you should own the homebrew folder
 whoami
 
 # replace `<jsmith>` with your own username
-sudo chown -R <jsmith> /usr/local/*  # pay atention, you are taking ownership inside the folder /usr/local, not the folder itself
-# this will ask for root (macos) password, and then... it will take a while, be patient
+sudo chown -R <jsmith> /opt/homebrew  
+# this may ask for root (macos) password, and then... it will take a while, be patient
 ```
 
 
