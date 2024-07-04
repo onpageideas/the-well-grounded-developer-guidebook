@@ -1,27 +1,29 @@
 # Recommended setup for macOS with bash terminal (.bashrc, .bash_profile, etc)
 
-> Last update: Aug 30, 2021
+> Last update: July 3rd, 2024
 
 ## Assumptions in regard to existing macOS setup
 
-1. running macOS >= 10.14 (Catalina or later); see note below about zsh.
-2. [homebrew](http://brew.sh) properly installed (see chapter below about "Correct Homebrew install/setup")
-3. you are using `bash` as your terminal shell, *not* zsh or anything else
-4. (recommended): you are using [iTerm2](https://www.iterm2.com/)  (current version 3.4 on Aug 30, 2021)
-5. (recommended): you have `bash-completion` installed via brew
+1. UPDATE July 2024: The guide is now valid only for for Macs with **Silicon CPU** i.e. arm64 architecture.
+2. running macOS >= 14 (Sonoma or later); see note below about zsh.
+3. [homebrew](http://brew.sh) properly installed (see chapter below about "Correct Homebrew install/setup")
+4. you are (should be) using `bash` as your terminal shell, *not* zsh or anything else
+5. (recommended): you are using [iTerm2](https://www.iterm2.com/)  (current version 3.5 on July 2024)
+6. (recommended): you have `bash-completion` and `bash-git-prompt` installed via brew
 
 ### NOTE about zsh
-[macOS 10.15 (Catalina) switched to zsh as default](https://support.apple.com/en-us/HT208050). Don't let yourself be tricked! bash is absolutely very ok, with a very strong development community, stability and speed.  zsh it's just ... "different", but not better! And Apple just likes to play the game of being "different"... bleah
+[macOS 10.15 (Catalina) switched to zsh as default](https://support.apple.com/en-us/HT208050). Don't let yourself be tricked! bash is absolutely very OK, with a very strong development community, stability and speed.  zsh it's just ... "different", but not better! And Apple just likes to play the game of being "different"... probably marketing s#$t bleah ...
 
 
 # Setup your user login shell to use the brew installed "bash"
 
-Install `bash` via homebrew (version >= 5). That's because, macOS Mojave comes with bash v3.2 (just crazy, 10 years old!). And starting with macOS Catalina it switched to zsh (see the note/rant above about zsh).
+Install `bash` via homebrew (version >= 5). That's because, macOS Mojave comes with bash v3.2 (just crazy, ~10 years old!). And starting with macOS Catalina it switched to zsh (see the note/rant above about zsh).
 
 ```
 brew install bash
-# version 5.1.8, on Aug 30 2021
+# version 5.2.6, in July 2024
 ```
+
 
 Now setup your macOS user to use this new bash version as a login shell:
 
@@ -75,22 +77,26 @@ Good starting point example file for `.bash_profile`. You can copy paste this, i
 
 ```
 # define some alias commands
-alias _react_native_cleanall='watchman watch-del-all; rm -rf node_modules && yarn install; rm -fr ${TMPDIR:?}/react-*'
+alias _rails_db_recreate='DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=development bin/rails db:drop db:create db:migrate && RAILS_ENV=test bin/rails db:drop db:create db:migrate'
+alias _rails_db_recreate_and_seed='DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=development bin/rails db:drop db:create db:migrate db:seed && RAILS_ENV=test bin/rails db:drop db:create db:migrate'
+alias _rails_annotate_models='bin/bundle exec annotate --models --show-indexes --simple-indexes --sort -e --force'
+alias _rspec_failures='bin/rspec --only-failures'
+alias _react_native_cleanall='watchman watch-del-all; rm -rf node_modules && yarn install; rm -fr $TMPDIR/react-*'
 
+# git
+alias git='env GIT_SSL_NO_VERIFY=true git'
 
-# faster mcedit, disable subshell
+# faster mc & mcedit, disable subshell
 alias mcedit='mcedit -u'
+alias mc='mc -u'
 
 
 export SUDO_PS1="\[\h:\w\] \u\\$ "
-export JAVA_HOME=$(/usr/libexec/java_home -v 11)
-export EDITOR="mcedit"
 export HISTCONTROL=ignoreboth:erasedups
 export LANG="en_US.UTF-8"
-export SSL_CERT_FILE=~/.cacert.pem
 
-
-export ANDROID_HOME=/Developer/android-sdk
+# default editor, personal preference
+export EDITOR="mcedit"
 
 
 # IMPORTANT !!!  --- include .bashrc ---
@@ -100,24 +106,20 @@ export ANDROID_HOME=/Developer/android-sdk
 
 # bash prompts
 GIT_PS1_SHOWDIRTYSTATE=true
-PS1='\u:\w$(__git_ps1 "(%s)")\$ '
-PS1='\[\033[32m\]\u:\[\033[34m\]\w\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
-
-# use bash git prompt (https://formulae.brew.sh/formula/bash-git-prompt)
 if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
   __GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share
   source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
 fi
 
-
 # bash completion
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
+  source $(brew --prefix)/etc/bash_completion
 fi
 
 
 # iTerm2 integration
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
 ```
 
 
@@ -128,27 +130,41 @@ Should contain setup for PATH, and other environment variables that are used by 
 ***Remember: `.bashrc` is included/loaded into `.bash_profile`.***
 
 Recommended `.bashrc` file contents, for a properly setup (includes ruby / rvm, node / nvm, yarn, etc):
+
+
 ```
 
 # homebrew paths
-export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
+# https://github.com/rbenv/rbenv/wiki/Understanding-binstubs#adding-project-specific-binstubs-to-path
+# binstubs for a project are in the local ./bin/ folder
+export PATH="./bin:$PATH"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# add Python3 bin to PATH
-export PATH="$PATH:$HOME/Library/Python/3.7/bin"
+# Java zulu@17 SDK via brew cask: brew install --cask zulu@17
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+
+# Android SDK
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
 
 # setup RVM (ruby version manager)
 source "$HOME/.rvm/scripts/rvm"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
+# fix ruby puma fork() issue: https://stackoverflow.com/a/53404317/317884
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
 
 # setup NVM (node version manager)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
- 
-
-# add yarn installed global packages to path
-export PATH="$PATH:`yarn global bin`:$HOME/.yarn/bin"
+[ -z "$MC_SID" ] && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -z "$MC_SID" ] && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# nvm autoload nvmrc
+[ -z "$MC_SID" ] && [[ -s ~/.dotfiles/nvmrc_autoload.bash ]] && source ~/.dotfiles/nvmrc_autoload.bash
 
 ```
 
