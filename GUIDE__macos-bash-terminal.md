@@ -1,6 +1,6 @@
 # Recommended setup for macOS with bash terminal (.bashrc, .bash_profile, etc)
 
-> Last update: July 3rd, 2024
+> Last update: June 24th, 2025
 
 ## Assumptions in regard to existing macOS setup
 
@@ -30,15 +30,15 @@ Now setup your macOS user to use this new bash version as a login shell:
 ```
 # edit the /etc/shells and add the newly isntalled bash as a valid shell option
 
-sudo echo '/usr/local/bin/bash' >> /etc/shells
+sudo echo '/opt/homebrew/bin/bash' >> /etc/shells
 
-# this will add a line at the end of the file: /usr/local/bin/bash
+# this will add a line at the end of the file: /opt/homebrew/bin/bash
 ```
-As a result, your file `/etc/shells` should have this line added to it: `/usr/local/bin/bash` 
+As a result, your file `/etc/shells` should have this line added to it: `/opt/homebrew/bin/bash` 
 
 Next, open "System Preferences > Users & Groups", then on the bottom-left click to lock to unlock it (enter macos password).
 Then right-click on your user in the list and "Advanced Options".
-In the popup window that opens, under "Login shell", click the dropdown and select `/usr/local/bin/bash`.
+In the popup window that opens, under "Login shell", click the dropdown and select `/opt/homebrew/bin/bash`.
 Press OK, then **restart your macbook**.
 
 After reboot, your user will be using bash v5 as login shell.
@@ -58,7 +58,7 @@ Here's a list of other possible files you may have, and **you should remove thes
 - `.bash_login`
 - `.login`
 - `.session`
-- `.zshrc` (and anything zsh related)
+- `.zshrc` (optional: remove anything zsh related)
 
 
 Now, let's setup `.bash_profile` and `.bashrc` properly:
@@ -79,7 +79,7 @@ Good starting point example file for `.bash_profile`. You can copy paste this, i
 # define some alias commands
 alias _rails_db_recreate='DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=development bin/rails db:drop db:create db:migrate && RAILS_ENV=test bin/rails db:drop db:create db:migrate'
 alias _rails_db_recreate_and_seed='DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=development bin/rails db:drop db:create db:migrate db:seed && RAILS_ENV=test bin/rails db:drop db:create db:migrate'
-alias _rails_annotate_models='bin/bundle exec annotate --models --show-indexes --simple-indexes --sort -e --force'
+alias _rails_annotate_models='bin/bundle exec annotaterb models --show-indexes --simple-indexes --sort -e --force'
 alias _rspec_failures='bin/rspec --only-failures'
 alias _react_native_cleanall='watchman watch-del-all; rm -rf node_modules && yarn install; rm -fr $TMPDIR/react-*'
 
